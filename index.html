@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="sa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premam (Divine Love) 🕉️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Yatra+One&family=Gotu&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --saffron: #FF9933;
+            --gold: #FFD700;
+            --stone: #2c2c2c;
+            --stone-light: #3d3d3d;
+            --maroon: #800000;
+            --glow: rgba(255, 215, 0, 0.3);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--stone);
+            font-family: 'Gotu', sans-serif;
+            color: var(--gold);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- MANDALA BACKGROUND --- */
+        .mandala-layer {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.2;
+        }
+
+        .mandala {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='1'%3E%3Cpath d='M100 0c55.228 0 100 44.772 100 100s-44.772 100-100 100S0 155.228 0 100 44.772 0 100 0zm0 10c49.706 0 90 40.294 90 90s-40.294 90-90 90-90-40.294-90-90 40.294-90 90-90zm0 20c38.66 0 70 31.34 70 70s-31.34 70-70 70-70-31.34-70-70 31.34-70 70-70zm0 10c33.137 0 60 26.863 60 60s-26.863 60-60 60-60-26.863-60-60 26.863-60 60-60z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-size: contain;
+            animation: spin 60s linear infinite;
+        }
+
+        .mandala:nth-child(2) {
+            width: 60%;
+            height: 60%;
+            top: 20%; left: 20%;
+            animation: spin 40s linear infinite reverse;
+            opacity: 0.4;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- FLOATING ICONS --- */
+        .float-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sanskrit-emoji {
+            position: absolute;
+            bottom: -50px;
+            font-size: 1.5rem;
+            opacity: 0.4;
+            color: var(--saffron);
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-110vh) rotate(10deg); opacity: 0; }
+        }
+
+        /* --- TEMPLE FRAME --- */
+        .temple-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            border: 4px double var(--gold);
+            border-radius: 20px;
+            background: rgba(44, 44, 44, 0.85);
+            box-shadow: 0 0 50px rgba(255, 153, 51, 0.2);
+            text-align: center;
+        }
+
+        /* Om Symbol Decoration */
+        .temple-container::before {
+            content: '🕉️';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            background: var(--stone);
+            padding: 0 20px;
+            color: var(--saffron);
+            text-shadow: 0 0 10px var(--gold);
+        }
+
+        /* --- TEXT ANIMATION AREA --- */
+        .chant-area {
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .sanskrit-text {
+            font-family: 'Yatra One', cursive;
+            font-size: 2.2rem;
+            color: var(--saffron);
+            margin: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .translation {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: #ccc;
+            margin-top: 10px;
+            font-style: italic;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .visible { opacity: 1; }
+
+        /* --- MAIN QUOTE --- */
+        .main-quote-box {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .final-sanskrit {
+            font-family: 'Rozha One', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .final-trans {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            color: white;
+        }
+
+        /* --- AUDIO BUTTON (Visual Only) --- */
+        .chant-btn {
+            background: transparent;
+            border: 2px solid var(--saffron);
+            color: var(--saffron);
+            padding: 10px 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            border-radius: 50px;
+        }
+
+        .chant-btn:hover {
+            background: var(--saffron);
+            color: var(--stone);
+            box-shadow: 0 0 20px var(--saffron);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .temple-container { padding: 30px 15px; }
+            .sanskrit-text { font-size: 1.8rem; }
+            .final-sanskrit { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mandala-layer">
+        <div class="mandala"></div>
+        <div class="mandala"></div>
+    </div>
+    
+    <div class="float-layer" id="icon-layer"></div>
+
+    <div class="temple-container">
+        <div class="chant-area" id="chant-box">
+            <div class="sanskrit-text visible" id="sk-text">प्रेम एव जीवनम्</div>
+            <div class="translation visible" id="en-text">(Love is life itself)</div>
+        </div>
+
+        <button class="chant-btn" onclick="startChant()">Recite Mantra</button>
+
+        <div class="main-quote-box">
+            <div class="final-sanskrit">"अहं त्वाम् अनुरक्तः अस्मि।"</div>
+            <div class="final-trans">(I am deeply in love with you.)</div>
+        </div>
+    </div>
+
+    <script>
+        // --- FLOATING ICONS ---
+        const iconLayer = document.getElementById('icon-layer');
+        const icons = ['📜', '🧘', '🪷', '🏔️', '🐘', '🐚', '🕉️'];
+
+        setInterval(() => {
+            const el = document.createElement('div');
+            el.classList.add('sanskrit-emoji');
+            el.innerText = icons[Math.floor(Math.random() * icons.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 8 + 12) + 's';
+            iconLayer.appendChild(el);
+            setTimeout(() => el.remove(), 19000);
+        }, 1500);
+
+        // --- CHANTING ANIMATION LOGIC ---
+        const mantras = [
+            { sk: "त्वमेव मम जीवनम्", en: "You are my life" },
+            { sk: "अनुरागो हि कारणम्", en: "Love is the reason" },
+            { sk: "हृदये त्वं वससि", en: "You reside in my heart" },
+            { sk: "शाश्वत प्रेम", en: "Eternal Love" }
+        ];
+
+        let index = 0;
+        let isChanting = false;
+        let chantInterval;
+
+        const skText = document.getElementById('sk-text');
+        const enText = document.getElementById('en-text');
+
+        function startChant() {
+            if(isChanting) return;
+            isChanting = true;
+            document.querySelector('.chant-btn').style.display = 'none'; // Hide button
+
+            // Cycle through text smoothly
+            chantInterval = setInterval(() => {
+                // Fade Out
+                skText.classList.remove('visible');
+                enText.classList.remove('visible');
+
+                setTimeout(() => {
+                    // Change Text
+                    index = (index + 1) % mantras.length;
+                    skText.innerText = mantras[index].sk;
+                    enText.innerText = "(" + mantras[index].en + ")";
+
+                    // Fade In
+                    skText.classList.add('visible');
+                    enText.classList.add('visible');
+                }, 1500); // Wait for fade out to finish
+
+            }, 4000); // Change every 4 seconds
+        }
+    </script>
+</body>
+</html>

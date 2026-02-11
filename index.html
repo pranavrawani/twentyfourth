@@ -267,5 +267,62 @@
             }, 4000); // Change every 4 seconds
         }
     </script>
+    <script>
+        // --- CONFIGURATION ---
+
+        // 1. To disable the password, change 'true' to 'false'
+        const PASSWORD_ENABLED = true;
+
+        // 2. Set your password here
+        const CORRECT_PASSWORD = "pkroyvb";
+
+        // 3. Set the preview time in milliseconds (4000 = 4 seconds)
+        const PREVIEW_TIME = 5000;
+
+        // --- LOCK LOGIC (DO NOT TOUCH BELOW) ---
+        if (PASSWORD_ENABLED) {
+            setTimeout(() => {
+                // Check if already unlocked in this session
+                if (sessionStorage.getItem('isUnlocked') === 'true') return;
+
+                // Create the lock overlay
+                const lockScreen = document.createElement('div');
+                lockScreen.id = 'premium-lock-screen';
+                lockScreen.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background-color: black; color: white; z-index: 9999999;
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                font-family: sans-serif; text-align: center;
+            `;
+
+                lockScreen.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 20px;">🔒</div>
+                <h2 style="margin-bottom: 10px; color: #fff;">Premium Content</h2>
+                <p style="margin-bottom: 20px; color: #ccc;">Preview time is over. Please enter password.</p>
+                <input type="password" id="pass-input" placeholder="Enter Password" style="
+                    padding: 10px; font-size: 1.2rem; border-radius: 5px; border: none; margin-bottom: 15px; text-align: center; width: 80%; max-width: 300px;">
+                <button onclick="checkPass()" style="
+                    padding: 10px 30px; font-size: 1.2rem; background: #ff4d6d; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    Unlock
+                </button>
+                <p id="error-msg" style="color: red; margin-top: 15px; display: none;">Incorrect Password</p>
+            `;
+
+                document.body.appendChild(lockScreen);
+
+                // Define the check function globally
+                window.checkPass = function () {
+                    const input = document.getElementById('pass-input').value;
+                    if (input === CORRECT_PASSWORD) {
+                        document.getElementById('premium-lock-screen').remove();
+                        sessionStorage.setItem('isUnlocked', 'true'); // Remember unlock for this session
+                    } else {
+                        document.getElementById('error-msg').style.display = 'block';
+                    }
+                };
+
+            }, PREVIEW_TIME);
+        }
+    </script>
 </body>
 </html>
